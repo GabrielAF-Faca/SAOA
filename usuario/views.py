@@ -10,7 +10,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from mail_templated import EmailMessage
 
-from utils.decorators import LoginRequiredMixin, StaffRequiredMixin, EnfermeiroRequiredMixin
+from utils.decorators import LoginRequiredMixin, StaffRequiredMixin, CoordenadorRequiredMixin
 
 from .models import Usuario
 
@@ -30,7 +30,7 @@ class UsuarioListView(LoginRequiredMixin, ListView):
         return qs
 
 
-class UsuarioCreateView(LoginRequiredMixin, CreateView):
+class UsuarioCreateView(LoginRequiredMixin, CoordenadorRequiredMixin, CreateView):
     model = Usuario
     fields = ['tipo', 'nome', 'email', 'password', 'is_active']
     success_url = 'usuario_list'
@@ -40,7 +40,7 @@ class UsuarioCreateView(LoginRequiredMixin, CreateView):
         return reverse(self.success_url)
 
 
-class UsuarioUpdateView(LoginRequiredMixin, UpdateView):
+class UsuarioUpdateView(LoginRequiredMixin, CoordenadorRequiredMixin, UpdateView):
     model = Usuario
     fields = ['tipo', 'nome', 'email', 'is_active']
     success_url = 'usuario_list'
