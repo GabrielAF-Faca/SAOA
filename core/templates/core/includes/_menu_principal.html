@@ -1,6 +1,6 @@
 {% load bootstrap3 %}
 
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default sticky-top">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -21,12 +21,14 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% bootstrap_icon 'cog' %} Gestão básica <span class="caret"></span></a>
           <ul class="dropdown-menu">
-              <li><a href="{% url 'usuario_list' %}">{% bootstrap_icon 'user' %} Usuários</a></li>
-              <li><a href="{% url 'instituicao_list' %}">{% bootstrap_icon 'user' %} Instituições</a></li>
+            <li><a href="{% url 'usuario_list' %}">{% bootstrap_icon 'user' %} Usuários</a></li>
+            <li><a href="{% url 'instituicao_list' %}">{% bootstrap_icon 'tower' %} Instituições</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="{% url 'tipo_evento_list' %}">{% bootstrap_icon 'bookmark' %} Tipos de Evento</a></li>
           </ul>
         </li>
 
-       
+
         <!-- <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% bootstrap_icon 'print' %} Relatórios <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -37,17 +39,23 @@
             <li><a href="#">Impressões</a></li>
           </ul>
         </li> -->
-        
+
       </ul>
-      
+
       <ul class="nav navbar-nav navbar-right">
         <li><a href="{% url 'about' %}">{% bootstrap_icon 'question-sign' %} Sobre</a></li>
-        
+
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="{% url 'password_change' %}">Alterar senha</a></li>
-            <li><a href="{% url 'logout' %}?next=/">Sair</a></li>
+            {% comment %} <li><a href="{% url 'logout' %}?next=/">Sair</a></li> {% endcomment %}
+            <li>
+              <form method="post" action="{% url 'logout' %}?next=/">
+                {% csrf_token %}
+                <button type="submit">Log Out</button>
+              </form>
+            </li>
           </ul>
         </li>
       </ul>
