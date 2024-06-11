@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.urls import reverse
-#from django.utils.translation import ugettext_lazy as _
+# from django.utils.translation import ugettext_lazy as _
 
 from utils.gerador_hash import gerar_hash
 
@@ -13,9 +13,8 @@ class TipoEventoAtivoManager(models.Manager):
 
 
 class TipoEvento(models.Model):
-
     descricao = models.CharField('Tipo de evento', max_length=100, help_text='* Campo obrigatório', unique=True,
-                            db_index=True)
+                                 db_index=True)
 
     is_active = models.BooleanField('Ativo', default=True,
                                     help_text='Se ativo, o tipo pode ser usado no sistema')
@@ -31,11 +30,9 @@ class TipoEvento(models.Model):
         verbose_name_plural = 'tipos de evento'
 
     def __str__(self):
-
         return self.descricao
 
     def save(self, *args, **kwargs):
-
         if not self.slug:
             self.slug = gerar_hash()
 

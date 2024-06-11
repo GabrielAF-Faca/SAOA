@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap3',
 
+    'evento',
     'usuario',
     'instituicao',
     'tipo_evento',
