@@ -8,12 +8,13 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
-    path('usuario/', include('usuario.urls')),
+    path('aviso/', include('aviso.urls')),
+    path('evento/', include('evento.urls')),
     path('instituicao/', include('instituicao.urls')),
     path('tipo_evento/', include('tipo_evento.urls')),
-    path('evento/', include('evento.urls')),
+    path('usuario/', include('usuario.urls')),
 
-    path(r'accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 # url para arquivos de media quando em desenvolvimento

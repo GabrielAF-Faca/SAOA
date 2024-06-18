@@ -32,47 +32,41 @@ class Usuario(AbstractBaseUser):
     # 2 campo da tupla eh mostrado para o usuario
     TIPOS_USUARIOS = (
         ('ADMINISTRADOR', 'Administrador'),
-        ('COORDENADOR', 'Coordenador do Evento'),
+        ('COORDENADOR', 'Coordenador de Evento'),
         ('MEMBRO', 'Membro'),
     )
-
+    # (técnico, graduando, graduado, especialista, mestre, doutor)
     TITULACAO = (
         ('TECNICO', 'Técnico'),
         ('GRADUANDO', 'Graduando'),
         ('GRADUADO', 'Graduado'),
         ('ESPECIALISTA', 'Especialista'),
         ('MESTRE', 'Mestre'),
-        ('DOUTOR', 'Doutor')
+        ('DOUTOR', 'Doutor'),
     )
 
+    # (Ciências Humana, Ciências da Saúde, Ciências Sociais, Ciências Tecnológicas)
     AREA = (
         ('HUMANAS', 'Ciências Humanas'),
         ('SAUDE', 'Ciências da Saúde'),
         ('SOCIAIS', 'Ciências Sociais'),
-        ('TECNOLOGICAS', 'Ciências Tecnológicas'),
+        ('TECNOLOGICA', 'Ciências Tecnológicas'),
     )
 
     USERNAME_FIELD = 'email'
 
     tipo = models.CharField('Tipo do usuário *', max_length=15, choices=TIPOS_USUARIOS, default='MEMBRO',
                             help_text='* Campos obrigatórios')
-
     nome = models.CharField('Nome completo *', max_length=100)
-
     titulacao = models.CharField('Titulação', max_length=15, choices=TITULACAO, null=True, blank=True,
-                                 default='MEMBRO',
-                                 help_text='* Campos obrigatórios')
-
-    area = models.CharField('Área de pesquisa *', max_length=12, choices=AREA, null=True, blank=True,
-                                 help_text='* Escolha área de interesse de trabalho')
-
-    instituicao = models.CharField('Instituição *', max_length=50, help_text="Registre a instituição/universidade"
-                                                                             "/empresa")
-
+                                 help_text='Selecione a maior titulação')
+    area = models.CharField('Área de pesquisa do usuário *', max_length=11, choices=AREA,
+                            help_text='Escolha área de interesse de trabalho')
+    instituicao = models.CharField('Instituição a que pertence *', max_length=50,
+                                   help_text='Registre a instituição, ou universidade, ou empresa')
     email = models.EmailField('Email', unique=True, max_length=100, db_index=True)
-    celular = models.CharField("Número de celular com DDD *", max_length=11, help_text='Use DDD')
-
-    cpf = models.CharField("CPF *", max_length=14, help_text="Apenas números")
+    celular = models.CharField('Número celular com DDD *', max_length=14, help_text="Use DDD, por exemplo 55987619832")
+    cpf = models.CharField('CPF *', max_length=14, help_text='ATENÇÃO: Somente os NÚMEROS')
 
     is_active = models.BooleanField('Ativo', default=False,
                                     help_text='Se ativo, o usuário tem permissão para acessar o sistema')
@@ -108,6 +102,7 @@ class Usuario(AbstractBaseUser):
             self.slug = gerar_hash()
         self.nome = self.nome.upper()
         self.instituicao = self.instituicao.upper()
+        self.email = self.email.lower()
         if not self.id:
             self.set_password(self.password)  # criptografa a senha digitada no forms
         super(Usuario, self).save(*args, **kwargs)

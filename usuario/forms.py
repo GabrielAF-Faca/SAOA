@@ -1,7 +1,7 @@
 from django import forms
 from django.db import models
 
-from usuario.models import Usuario
+from .models import Usuario
 
 
 class BuscaUsuarioForm(forms.Form):
@@ -10,30 +10,31 @@ class BuscaUsuarioForm(forms.Form):
     TIPOS_USUARIOS = (
         (None, '-----'),
         ('ADMINISTRADOR', 'Administrador'),
-        ('COORDENADOR', 'Coordenador do Evento'),
+        ('COORDENADOR', 'Coordenador de Evento'),
         ('MEMBRO', 'Membro'),
     )
-
-    TIPOS_TITULACAO = (
+    # (técnico, graduando, graduado, especialista, mestre, doutor)
+    TITULACAO = (
         (None, '-----'),
         ('TECNICO', 'Técnico'),
         ('GRADUANDO', 'Graduando'),
         ('GRADUADO', 'Graduado'),
         ('ESPECIALISTA', 'Especialista'),
         ('MESTRE', 'Mestre'),
-        ('DOUTOR', 'Doutor')
+        ('DOUTOR', 'Doutor'),
     )
 
+    # (Ciências Humana, Ciências da Saúde, Ciências Sociais, Ciências Tecnológicas)
     AREA = (
         (None, '-----'),
         ('HUMANAS', 'Ciências Humanas'),
         ('SAUDE', 'Ciências da Saúde'),
         ('SOCIAIS', 'Ciências Sociais'),
-        ('TECNOLOGICAS', 'Ciências Tecnológicas'),
+        ('TECNOLOGICA', 'Ciências Tecnológicas'),
     )
 
     tipo = forms.ChoiceField(label='Tipo de usuário', choices=TIPOS_USUARIOS, required=False)
-    titulacao = forms.ChoiceField(label='Titulação', choices=TIPOS_TITULACAO, required=False)
+    titulacao = forms.ChoiceField(label='Titulação', choices=TITULACAO, required=False)
     area = forms.ChoiceField(label='Área de interesse', choices=AREA, required=False)
 
 
@@ -71,8 +72,8 @@ class UsuarioRegisterForm(forms.ModelForm):
     email = forms.EmailField(label='Email *',
                              help_text='Use o email válido. Será usado para acessar sistema e recuperar senha!',
                              required=True)
-    celular = forms.CharField(label='Número celular com DDD *', max_length=11,
-                              help_text="Use DDD, por exemplo 55987619832", required=True)
+    celular = forms.CharField(label='Número celular com DDD *', help_text="Use DDD, por exemplo 55987619832",
+                              required=True)
     cpf = forms.CharField(label='CPF *', required=True)
     password = forms.CharField(label="Senha *", widget=forms.PasswordInput, required=True)
 
